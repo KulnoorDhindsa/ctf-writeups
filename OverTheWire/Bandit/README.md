@@ -12,7 +12,7 @@ Each level follows this structure:
 
 **What I thought and executed:** Includes my thought process and errors
 
-**What was required:** Includes the necessary commands in order of execution along with the purpose of each
+**What was required:** Includes the necessary commands in order of execution, along with the purpose of each
 
-**What I learnt:** Key conepts and takeaways
+**What I learnt:** Key concepts and takeaways
 
