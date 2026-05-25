@@ -1,18 +1,17 @@
 # Level 0 → 1
 ### Objective:  Find the password for level 1 stored in a file readme located in the home directory.
 ### What I thought and executed:
-1. Since I only knew the `man` command then, I ran `man` on the suggested commands (`ls`, `du`, `cat`, `file`, `cd`(no `man cd` exists) and `find`) in the official site for overthewire bandit i.e. [OverTheWire Bandit](https://overthewire.org/wargames/bandit/).
-2. `ls` lists all the files (readable/nonreadable) present in the current directory.
-3. `cat` reads the content of selected file and displays output in the terminal .
+1. I ran `man` on the suggested commands (`ls`, `du`, `cat`, `file`, `cd`(no `man cd` exists) and `find`) in the official site for overthewire bandit i.e. [OverTheWire Bandit](https://overthewire.org/wargames/bandit/).
+2. `ls` lists all the files readable/nonreadable present in the current directory.
+3. `cat` reads the content of a selected file and displays output in the terminal .
 ### What was required:
 | Command Required (in order)   | Purpose                                                      |
 |-------------------------------|--------------------------------------------------------------|
 |`ls`                           | To confirm that a file 'readme' exists in the directory.     |
-|`cat readme`                   | To read the file 'readme' for read-able content              |
+|`cat readme`                   | To read the file 'readme' for readable content               |
 ### What I learnt:
-- When you SSH into Bandit, you land in the home directory. I initially wasted time trying to find it, only to realise I was there all along.
-- Using `man` command on the suggested command from the official link of OverTheWire Bandit is the way to go.
-- `ssh` (Secure Shell) is a command that helps you securely connect to remote servers across a network. In `bandit1@bandit.labs.overthewire.org -p 2220`, *bandit1@bandit.labs.overthewire.org* is the server address and *-p 2220* is the port address.
+- SSH sessions start in the user's home directory by default.
+- In `bandit1@bandit.labs.overthewire.org -p 2220`, *bandit1@bandit.labs.overthewire.org* is the server address and *-p 2220* is the port address.
 
 ---
 
@@ -20,36 +19,36 @@
 ### Objective: Find the password for level 2 stored in a file '-' located in the home directory.
 ### What I thought and executed:
 1. To confirm that a file '-' exists in the home directory, I ran `ls`, and surely it was there.
-2. To read its contents I ran `cat -`, only to freeze my terminal and I had to close it and re-open it.
-3. Then I read in the 'Helpful Reading Material' section on [OverTheWire Bandit](https://overthewire.org/wargames/bandit/), that files beginning with '-' pose a problem to a few Linux commands, including `cat`. The correct way to run `cat` on these file names or any file names for that matter is `cat ./filename`.
+2. To read its contents I ran `cat -`, only to freeze my terminal and I had to close it and reopen it.
+3. I read in the 'Helpful Reading Material' section on [OverTheWire Bandit](https://overthewire.org/wargames/bandit/), that files beginning with '-' pose a problem to a few Linux commands, including `cat`. The correct way to run `cat` on these file names is `cat ./filename`.
 ### What was required:
 |Command Required (in order)  | Purpose                                                |
 |-----------------------------|--------------------------------------------------------|
 |`ls`                         |To confirm that a file '-' exists in the home directory |
 |`cat ./-`                    |To read the file '-' for the password                   |
 ### What I learnt:
-- File names starting with '-' pose a problem to a few Linux commands. `cat ./-` works where '.' is for current directory, '/' is a directory separator and '-' is a filename.
-- `-` is a Unix convention for stdin (standard input), so `cat -` waits for keyboard input, causing the terminal to freeze.
+- `cat -` freezes the terminal as `-` is a Unix convention for stdin (standard input), so `cat -` waits for keyboard input, causing the terminal to freeze.
+- '-' poses a problem for a few Linux commands. `cat ./-` works where '.' is for current directory, '/' is a directory separator and '-' is a filename.
 
 ---
 
 # Level 2 → 3
-### Objective: Find the password for level 3 stored in a file '---spaces in this filename--' located in the home directory.
+### Objective: Find the password for level 3 stored in a file 'spaces in this filename' located in the home directory.
 ### What I thought and executed:
-1. I ran `ls` command to confirm that a file 'readme' exists in this directory.
-2. I ran `cat ./--spaces in this filename---`. This failed as it took '---spaces', 'in', 'this' and 'filename---' as different filenames which obviously didn't exist in the home directory.
+1. I ran `ls` command to confirm that a file 'spaces in this filename' exists in this directory.
+2. I ran `cat ./spaces in this filename`. This failed as it took 'spaces', 'in', 'this' and 'filename' as different filenames which obviously didn't exist in the home directory.
 3. I read the 'Helpful Reading Material' section on the [OverTheWire Bandit](https://overthewire.org/wargames/bandit/) for this particular level. 
-4. I got 2 solutions:
-    - Instead of `cat ./---spaces in this filename---`, I ran `cat ./---spaces\ in\ this\ filename---` which tells the system that the spaces followed after '\' be treated as a character in the filename rather than as separators.
-    - *shortcut* : Press tab after './---spaces'. The system automatically types the file matching this initial name with the required additions of '\' wherever required. However this method fails when there are multiple files with the same initial filename.
+4. I found two solutions:
+    - Instead of `cat ./spaces in this filename`, I ran `cat ./spaces\ in\ this\ filename` which tells the shell to treat the soace following `\` as part of the filename rather than a separator.
+    - *shortcut* : Press tab after './spaces'. The system automatically types the file matching this initial name with the required additions of '\' wherever required. However this method fails when there are multiple files with the same prefix.
 ### What was required:
-| Commands Required (in order)            |                                                                                              |
+| Commands Required (in order)            |Purpose                                                                                       |
 |-----------------------------------------|----------------------------------------------------------------------------------------------|
 |`ls`                                     |To confirm that a file 'readme' exists in the home directory                                  |
-|`cat ./---spaces\ in\ this\ filename---` |To read the content of the file '---spaces in this filename---' appropriately for the password|
+|`cat ./spaces\ in\ this\ filename` |To read the content of the file 'spaces in this filename' appropriately for the password|
 ### What I learnt:
 - While using Linux commands (like `cat`), filenames beginning with '-' or having spaces in them have to be written differently as they pose a problem to the shell as it takes them as different characters separated with a space. 
-- '/' is used to let the system know that the following space is to be used as a charcters rather than a separator, it is the same while writing Markdown aswell. 
+- '\' is used to let the system know that the following space is to be used as a charcters rather than a separator, it is the same while writing Markdown aswell. 
 
 ---
 
@@ -515,3 +514,46 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 |`cat /tmp/8ca319486bfbbc3663ea0fbe81326349`            |                                         |
 ### What I learnt:
 -
+
+---
+
+# Level 23 → 24
+### Objective: To find the password for the next level by looking into '/etc/cron.d/' and following through with what is being executed
+### What I thought and executed: 
+1. I ran `cd /etc/cron.d/` to enter this directory.
+2. I ran `ls` to see the different files in this directory.
+3. I ran `cat cronjob_bandit24`, the relevant file to crack the password for the next level, i.e. level 24.
+4. I ran `cat /usr/bin/cronjob_bandit24.sh` to read the content of this file.
+5. Unlike previous levels, this level required a fake directory to be made ( as suggested on [OverTheWire: Bandit](https://overthewire.org/wargames/bandit/)), so I ran `mkdir /tmp/mydir` to create a temporary directory 'mydir' in tmp folder.
+6. `cronjob` was going to run it's procedure every minute as user 'bandit24'. It read the contents of the fil in the specified address ('/var/spool/bandit24/foo/' as stated in the terminal output) and executed it if it was an 'executable' file.
+7. As it runs the files with permissions of user 'bandit24', it has the permission to execute the command `cat /etc/bandit_pass/bandit24`. So the goal is to make a file having this command, store it in the specified location, modify its permission to 777 i.e. allowing the user, user's group and others permision to 'rwx' i.e. read, write and execute. (777 in binary stands for 111, so all permisions 'read', 'write' and 'execute' are turned 'on' with 1).
+8. I ran `nano /tmp/mydir/myscript.sh` to create a text file in the directory 'mydir'. It opened to a simple text editor in the terminal where I typed, '#!/bin/bash' in line 1 and `cat /etc/bandit_pass/bandit24 > /tmp/mydir/password` where '>' sent the output of the first command to the *file* of teh address '/tmp/mydir/password' instead of the terminal.
+9. I ran `chmod +x /tmp/mydir/myscript.sh` to make the file 'myscript.sh' an executable file. If this file wasen't 'executable' then it would just be a text file which would refuse to be run by cronjob, thus serving no purpose.
+10. I ran `chmod 777 /tmp/mydir` to change the permissions of the directory to '777' as explained in point number 7.
+11. I ran `cp /tmp/mydir/myscript.sh /var/spool/bandit24/foo/` to copy the content of the file 'myscript.sh' to the specified location. Its necessary to copy the content from an external file to the specified location instead of making everything in the specified location as in the terminal ouptut of `cat /usr/bin/cronjob_bandit24.sh` it states that it will execute and *delete* the files every minute, thus we will lose the file at the specified location. But having the commnd to store the password in an external file allows us to access the content of the file even after the orignal is deleted at the specified location.
+12. Since `cronjob` runs its procedure of reading the files at the specified location and then deleting them every minute, I waited for 60 seconds before running the command `cat /tmp/mydir/password` to read the password that `cronjob` has stored here.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`cd /etc/cron.d/`|To dwitch directories|
+|`ls` |To look at the different files listed in the directory|
+|`cat cronjob_bandit24`|To read the most relevant file for this level|
+|`cat /usr/bin/cronjob_bandit24.sh`|To read the stored file|
+|`mkdir /tmp/mydir`|To make a temporary directory|
+|`nano /tmp/mydir/myscript.sh`|To make a file 'myscript.sh' in the new directory|
+|'#!/bin/bash'  in line 1; `cat /etc/bandit24 > /tmp/mydir/password` in lin2|
+|`chmod +x /tmp/mydir/myscript.sh`|To make the file executable|
+|`chmod 777 /tmp/mydir`|To change the permissions of the directory to make it accessible and editable to everyone|
+|`cp /tmp/mydir/myscript.sh /var/spool/bandit24/foo/`|To copy the file to desired location|
+|`cat /tmp/mydir/password`|To be run **1 minute AFTER** previous command ran, to read the password for the next level from file 'password'|
+### What I learnt:
+- Permissions in Linux are split into 3 groups: 'owner', 'owner's group' and 'others' ('other's' includes everyone else including owner). There are 3 permissions 'read', 'write' and 'execute'. 
+- 777 in binary is 111 which means the permission 'rwe' (read, write and execute) are given to all 3, 'owner', 'owner's group' and 'others'.
+- `mkdir` is command that allows you to make your own directory at desired location.
+- `+x` optio in `chmod` command is for maing the selected file 'executable'.
+- '>' redirects, i.e. sends output of first command to another *file* whose address is linked after it.
+  '|' (pipeline) send the output of first command to another *command* which is written after it.
+---
+
+# Level 24 → 25
+### Objective:
