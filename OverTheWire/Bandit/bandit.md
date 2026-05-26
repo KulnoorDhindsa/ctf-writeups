@@ -11,7 +11,7 @@
 |`cat readme`                   | To read the file 'readme' for readable content               |
 ### What I learnt:
 - SSH sessions start in the user's home directory by default.
-- In `bandit1@bandit.labs.overthewire.org -p 2220`, *bandit1@bandit.labs.overthewire.org* is the server address and *-p 2220* is the port address.
+- In `bandit1@bandit.labs.overthewire.org -p 2220`, *bandit1* is the username, *bandit.labs.overthewire* is the server address and *-p 2220* is the port address.
 
 ---
 
@@ -19,7 +19,7 @@
 ### Objective: Find the password for level 2 stored in a file '-' located in the home directory.
 ### What I thought and executed:
 1. To confirm that a file '-' exists in the home directory, I ran `ls`, and surely it was there.
-2. To read its contents I ran `cat -`, only to freeze my terminal and I had to close it and reopen it.
+2. To read its contents I ran `cat -`. This froze my terminal.
 3. I read in the 'Helpful Reading Material' section on [OverTheWire Bandit](https://overthewire.org/wargames/bandit/), that files beginning with '-' pose a problem to a few Linux commands, including `cat`. The correct way to run `cat` on these file names is `cat ./filename`.
 ### What was required:
 |Command Required (in order)  | Purpose                                                |
@@ -28,7 +28,7 @@
 |`cat ./-`                    |To read the file '-' for the password                   |
 ### What I learnt:
 - `cat -` freezes the terminal as `-` is a Unix convention for stdin (standard input), so `cat -` waits for keyboard input, causing the terminal to freeze.
-- '-' poses a problem for a few Linux commands. `cat ./-` works where '.' is for current directory, '/' is a directory separator and '-' is a filename.
+- '-' poses a problem for a few Linux commands. `cat ./-` works (where '.' is for current directory, '/' is a separator. `./`) as it tells shell to interpret `-` as a **path** rather than a flag/option.
 
 ---
 
@@ -47,8 +47,8 @@
 |`ls`                                     |To confirm that a file 'readme' exists in the home directory                                  |
 |`cat ./spaces\ in\ this\ filename` |To read the content of the file 'spaces in this filename' appropriately for the password|
 ### What I learnt:
-- While using Linux commands (like `cat`), filenames beginning with '-' or having spaces in them have to be written differently as they pose a problem to the shell as it takes them as different characters separated with a space. 
-- '\' is used to let the system know that the following space is to be used as a charcters rather than a separator, it is the same while writing Markdown aswell. 
+- Shell by default interprets spaces as arguments and `-` as flag prefix. Thus while writing filenames, *spaces* and `-` are followed by `\`. 
+- '\' is used to let the system know that the following space is to be used as a charcters rather than a separator. 
 
 ---
 
@@ -56,7 +56,7 @@
 ### Objective: Find the password for level 4 stored in a hidden file in the 'inhere' directory
 ### What I thought and executed:
 1. The `find` command is used to search for files and directories on the server.
-2. I ran the command `find [inhere]`. No results came up as i had entered the wrong syntax, no brackets are to be used, simply `find inhere`.
+2. I ran the command `find [inhere]` - *incorrect syntax, brackets are not used.* Simply `find inhere` works.
 3. I ran `ls` in my home directory in hopes that it will read content of all the directories, which was a rookie mistake. Since `man cd` didnt exist, it took me some googling to realise that `cd` command is used to change directories.
 4. I ran `file inhere` to confirm that its a directory (it showed 'inhere' in blue).
 5. I ran `cd inhere` followed by `ls` in the inhere directory. No results for `ls` as it was a hidden file.
@@ -71,17 +71,17 @@
 |`cat filename`              |To read the content of the file                     |
 ### What I learnt:
 - While using `file` command, no need to use [] for the filename, its the wrong syntax, instead `file filename` is correct.
-- `ls` can list read-able files from text to extension files, directories, links, characters etc.
-- If on using `ls`, a file comes in blue color, means its a directory.
+- `ls` can list readable directory entries.
+- By default in most terminals, `ls` color-codes output, with **directories typically shown in blue**.
 - `ls -a` can list hidden files.
-- Hidden files are just files that begin with fullstop (.).
+- Hidden files are just files that begin with full stop (.).
 
 ---
 
 # Level 4 → 5
 ### Objective: Find the password for level 5 stored in human-readable file in the 'inhere' directory
 ### What I thought and executed: 
-1. I ran `cd inhere` to switch directories.
+1. I ran `cd inhere`.
 2. There were a number of files. There are 2 options:
     - I run `file` command on all individual files untill i get *ASCII* file, which is the human readable file. This method works but is long isn't that efficient when dealing with large amount of files.
     - I run `file ./*`. This command files or categorises each file type in the current directory. '.' for this directory, '/' as a separator and '*' for everything.
@@ -92,7 +92,8 @@
 |`file ./*`                  |To check file types of all files in the current 'inhere' directory |
 |`cat filename`              |To read the filename for the password                              |
 ### What I learnt: 
-- Using `./*` on various Linux commands saves time and effort.
+- `*` is a *glob/wildcard* that the shell expnds to all filenames in the current directory.
+- `./*` expands to all files in current directory, passing them as arguments to the command.
 
 ---
 
@@ -102,20 +103,20 @@
 1. I ran `cd inhere` to switch directories.
 2. I ran `file ./*` and got 19 'maybehere' directories.
 3. Now we need a directory that is human readable (ASCII text), file size 1033 bytes (`du` command can help) and non executable.
-4. We can `cd ./*` every directory, which is long and tough task.
+4. We can `cd` into every directory one by one which is a long and tedious task.
 5. I ran `man find` to figure out how to use specifications like size. After `man find`, you can type '/size' to find the keyword 'size' in the entire manual page.
-6. For the 'non executabele' file ( a file that can't be run as a programme in itself) using `! -executable` works.
+6. For the 'non-executabele' file ( a file that can't be run as a programme in itself) using `! -executable` works.
 7. I finally ran `find . -size 1033c ! -executable` where, '.' to find in the current directory ('inhere'), '-' used for different criterias applied (like size), 'c' to specify bytes and '!' for 'non'.
 ### What was required:
 |Commands Required (in order)       | Purpose                                                        |
 |-----------------------------------|----------------------------------------------------------------|
 |`cd inhere`                        |To switch directories from home directory to 'inhere' directory |
-|`find . -size 1033c ! -executable` |To find a directory of size 1033 bytes and non executable       |
+|`find . -size 1033c ! -executable` |To find a file of size 1033 bytes and non executable       |
 |`cd maybehere07`                   | To switch to desired directory                                 |
 |`file ./*`                         |To check the human readable file (ASCII plain text)             |
 |`cat file2`                        |To read the desired file for the required password              |
 ### What I learnt:
-- Many further criterias like 'size' 'executable' etc can be applied to `find` command for desired result separated by  '-'.
+- Many further criteria like 'size' 'executable' etc can be applied to `find` command where `-` is a **flag prefix** for each individual option.
 - '/word' can be type in the manual page of the `man` command to search for keywords regarding chosen command.
 - '!' is for negating commands like 'non executable files'.
 
@@ -125,14 +126,15 @@
 ### Objective: Find the password for level 7 stored in a file somewhere on the server having properties- owned by owner 'bandit7', group 'bandit6' and '33 byte' in size
 ### What I thought and executed:
 1. I ran `man find` and searched '/user' and '/group' to figure out how to include these specifications in the find.
-2. I finally ran `find /-size 33c -group bandit6 -user bandit7` where '/' searches the entire server, '-' separates the criterias, '33c' is for 33 bytes ('c' in Linux is for bytes).
+2. I ran `find / -size 33c -group bandit6 -user bandit7` where '/' searches the entire server, '-' separates the criterias, '33c' is for 33 bytes ('c' in Linux is for bytes).
+3. `find /` will return many **permission denied** errors for directories that user *bandit6* can't access.
 ### What was required:
 |Commands Required (in order)                   | Purpose                                  |
 |-----------------------------------------------|------------------------------------------|
-| `find /-size 33c -group bandit6 -ser bandit7` |To find the file with these specifications|
+| `find /-size 33c -group bandit6 -user bandit7` |To find the file with these specifications|
 |`cat ./filename`                               |To read the desired file for the password.|
 ### What I learnt:
-- '/' searches the entire server.
+- '/' is the **root of the filesystem**. `find /` searches from the root directory downward, covering the entire filesystem.
 - '.' searches the current directory.
 -  Using '/' in the `man` pages of command allows you to search specific keywords.
 
@@ -142,7 +144,7 @@
 ### Objective: Find the password for level 8 stored in a file 'data.txt' next to the word 'millionth'
 ### What I thought and executed:
 1. I ran `man` on suggested commands (`man`, `grep`, `sort`, `uniq`, `strings`, `base64`, `tr`, `gzip`, `bzip2` and `xxd`) to find a command that searches based off of patterns or keywords.
-2. I ran `grep millionth data.txt` in the format 'grep whattosearch wheretosearch'.
+2. I ran `grep millionth data.txt`.
 3. I got the result and the password was right next to 'millionth'.
 ### What was required:
 |Commands Required (in order)        |Purpose                                                   |
@@ -150,7 +152,7 @@
 |`grep millionth data.txt`           |To search for the word 'millionth' in the file 'data.txt' |
 ### What I learnt:
 - Running `man` command on the suggested commands of that level on [OverTheWire Bandit](https://overthewire.org/wargames/bandit/) helps learning in the long run as we get used to reading large amount of data which is necessary in the security field.
-- `grep` command is used to search for characters in a file.
+- `grep` command is used to search for patterns (regular expressions) in files.
 
 ---
 
