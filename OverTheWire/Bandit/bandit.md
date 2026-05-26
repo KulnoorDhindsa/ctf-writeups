@@ -556,4 +556,34 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 ---
 
 # Level 24 → 25
-### Objective:
+### Objective: To retrieve the password for the next level as output obtained after entering password to current level, along with a specific numeric 4-digit pincode to port 30002
+### What I thought and executed:
+1. I first clumsily tried `echo "gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8" | nc localhost 30002` (which was without the 4 digit secret pincode) to see what type of output it displayed. It was an interactive output, asking for the 4 digit pin code which I did not know then.
+2. I had two choices now:
+    - Manually enter all possible 4 digit numeric pincodes from 0000 to 9999, as in using 'bruteforce' to get the correct pincode.
+    - In a Nano file, use a 'loop' and `nc` and pipeline the results of the loop (which will be a pincode from 0000 to 9999) to the port 30002 using `nc localhost 30002`.
+    The second method is shorter, more efficient and works best for even larger data.
+3. The file will also have to be made executable using `chmod +x file_adddress_and_name` so that the shell can execute the loop and keep generating all possible 4 digit pincodes from 0000 to 9999.
+4. I googled the syntax for the loop. I ran `nano /tmp/bruteforce.sh` to make a file of the filename 'bruteforce.sh'.
+   In the file I typed:
+        #!/bin/bash
+        for i in $(seq -w 0000 9999); do
+            echo "gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 $i"
+        done | nc localhost 30002
+5. Then I did `ctrl + x` to close the file, `yes` and `enter`.
+6. I ran `chmod +x /tmp/bruteforce.sh` to make the file 'bruteforce.sh' an executable file. 
+7. I ran `/tmp/bruteforce.sh` to execute this file. In the terminal ouptut, 'wrong' will be printed continuously untill the correct four digit numeriv pincode is entered. It will then display the password for the next level in the terminal output.
+### What was required:
+|Commands Required (in order) |Purpose                                                                                                  |
+|-----------------------------|---------------------------------------------------------------------------------------------------------|
+|`nano /tmp/bruteforce.sh`    |To create a file 'bruteforce.sh' an entered the required data as discussed in point 4 of previous section|
+|`chomd +x /tmp/bruteforce.sh`|To make the file executable                                                                              |
+|`/tmp/bruteforce.sh`         |To execute the executable file 'bruteforce.sh'                                                           |
+### What I learnt:
+- The extension on file 'bruteforce.sh', i.e. '.sh' is just for us humans, so that at a glance we can tell that this is a shell script. For the system, the first line of this file, i.e. `#!/bin/bash` tells the system that this a shell script.
+- 'tmp' is the temporary directory in Linux that stores all temporary files.
+
+---
+
+# Level 25 → 26
+### Objective: 
