@@ -588,4 +588,9 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 ---
 
 # Level 25 → 26
-### Objective: 
+### Objective: To use passkey to connect to next level, but shell for user bandit26 isn't `/bin/bash`
+### What I thought and executed:
+1. I ran `man more`. The `ls` and `more bandit26.sshkey`. There is little but crucial difference in `more`, `cat` and `cat` (disscussed in 'What I learnt:' section). 
+2. I ran `cat /etc/shells` to check the available valid login shells. `more` was being used.
+3. I googled the trick because I had no idea what to do for this level.
+4. I had to run `ssh -i /home/bandit25/bandit26.sshkey bandit26@localhost -p 2220`, the normal `ssh` command while using a passkey, but with the terminal size shrunken down to 1-2 lines. This was because, `more` is like `ls` but instead of listing *all the files at once* as in `cat`, `more` displays one screenfull of text and waits for an output, thus allowing us to interact with the shell.
