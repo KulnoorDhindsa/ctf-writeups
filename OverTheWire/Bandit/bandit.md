@@ -638,7 +638,137 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 ---
 
 # Level 27 → 28
-### Objective: TO find password for next level by cloning a repository from given URL and reading its conetent
+### Objective: To find password for next level by cloning a repository from given URL and reading its content
 ### What I thought and executed:
 1. I ran `sudo apt install git` to install git in the terminal.
-2. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org/home/bandit27-git/repo"` to clone the repo to my local machine. 
+2. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"` to clone the repo to my local machine.
+3. I ran `ls` to see the cloned files.
+4. I ran `cd repo` to switch to 'repo' directory. 
+5. I ran `ls` to check files in 'repo'.
+6. I ran `cat README` to read the file 'README' and get the password.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`sudo apt install git`|To install git on the terminal in the vm|
+|`git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`|To clone the desired file from specified url to current directory|
+|`ls`|To check the files in the cloned files|
+|`cd repo`|TO switch to the cloned repository|
+|`ls`|To check the list of files in 'repo' directory|
+|`cat README`|To read the file 'README'|
+### What I learnt:
+- **repository** = **directory** = **folder** 
+---
+
+# Level 28 → 29
+### Objective: To find password for next level by cloning a repository from given URL and reading its content
+### What I thought and executed:
+1. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"` to clone the required repo from mention URL at the official site [OverTheWire: Bandit](https://overthewire.org/wargames/bandit/).
+2. I ran `ls` and `cd repo` along with `ls README.md`.
+3. It shoed password 'xxxxxxx', i.e. redacted.
+4. GIT tracks changes made over time. The password was orignally there, then someone made a commit (updated it), and redacted the password. So, we need to see past commits, so I ran `git log`. 
+5. It showed 3 comments, out of which I ran `git show <comment hash>` (comment hash written plainly, without the <>) to see the details of any suspicious commit (commit no. 2).
+6. The password was revealed in the commit.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`|To clone required repo on local machine|
+|`cd repo`|TO switch directories to 'repo'|
+|`ls`|To check teh files in 'repo'|
+|`cat README.md`|To read file 'README.md'|
+|`git log`|To review past commits made|
+|`git show <>`|To check details of specified commtits|
+### What I learnt:
+- When dealing with `git`, one of the 2 most important tools to use everytime is `git log`.
+- (Already mentioned, but relevant anyways)Ubuntu doesn't require extensions in files, its only for humands to know at a glance what type of file it is. Example, in 'README.md', extension 'md' is for users to know that its a markdown file, Ubunu knows its a markdown file from its content.
+
+# Level 29 → 30
+### Objective: To obtain the password of next level by cloning required repository and reading its content
+### What I thought and executed:
+1. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`.
+2. I ran `cd repo`, `ls`, `cat README.md`. It said password hasen't been decided yet.
+3. I ran `git log` and ran `git show <>` on all suspicious commits, but got nothing.
+4. I asked Claude about git, and along with `git log`, the second most important tool is `git branch -a` which tells us of all the other branches git has and a few of them could still be unaltered, and have the password.
+5. 'dev' is where the actual work is done before being cleaned, there is a high chance that password is still there in dev. So I ran `git checkout origin/dev`.
+6. Now I was in 'dev' branch, so I ran `cat README.md` again and got the password.
+### What was required:
+|Command Required (in order)|Purpose|
+|---------------------------|-------|
+|`git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`|To clone req repo from given URL|
+|`cd repo`|TO switch directories|
+|`cat README.md`|To read the file 'README.md'|
+|`git branch -a`|To see other branches, where password is still possible present|
+|`git checkout origin/dev`|TO go to 'dev' branch|
+|`cat README.md`|To read the file README.md while being in the de branch|
+### What I leanrt:
+- **2 Most Important** tools while dealing with `git` are: **`git log`** and **`git branch -a`**.
+---
+
+# Level 30 → 31
+### Objective: To find password for next level by cloning requried repo via git and reading its content
+### What I thought and executed:
+1. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"` along with `cd repo`, `ls`, `cat README.md`. The oassword was not there.
+2. I ran 2 trusted tools of git `git log` and `git branch -a` but nothing useful.
+3. I ran `git tag` to see all the added tags, where `tag` is another essential tool of git.
+4. Tags are labels attached to specific points in a repository that make working with a repo much easier.
+5. It showed 'secret', so I ran `git show secret` and the password appeared.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`|To clone repo|
+|`cd repo`||
+|`ls`||
+|`cat README.md`||
+|`git tag`|TO see names of all added tags in the repo|
+|`git show secret`|To read the tag 'secret'|
+### What I learnt:
+- Along with `git log` and `git branch -a`, tags are also important git features that allow easy understanding of the content of the repo.
+---
+
+# Level 31 → 32
+### Objective: TO find the password of next level by cloning a repo with given URL and reading its content
+### What I thought and executed:
+1. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"` along with `cd repo`, `ls`, `cat README.md`.
+2. In the READMEmd, its said to push a file to the repository to get the password.
+3. So I ran `echo "May I come in?" > key.txt` to create teh file key.txt with the content 'May I come in?' in one command.
+4. `echo` command reprints the thing in "", this time, it was sent to a file 'key.txt' (if it existed before, then it would be added in the contents, if not, then a new file named 'key.txt' was made) using the `>`.
+5. I ran `git add -f key.txt` to include this file in the next commit. The -f flag means **force**. Without it, git would have ignored the txt file as a file '.gitignore' by defualt is there in that repo that explicitly ignored .txt files.
+6. I ran `git commit -m "add key"`, but it required changes and confirmations in teh configeration so I ran `git config --global user.email "a@a.com"` and `git config --global user.name "a"` as the names and emails didnt matter.
+7. I re-ran `git commit -m "add key"` and then `git push origin master`. The password was printed in the output along with a lot of extra things.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`git clone "ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo"`|To clone req repo|
+|`cd repo`||
+|`ls`||
+|`cat README.md`||
+|`echo "May I come in?" > key.txt`|To make the file key.txt and add its content in one command|
+|`git add -f key.txt`|To make it include key.txt in next commit, and if flag to forcefully include the .txt |
+|`git commit -m "add key"`|To mention the commit made|
+|`git config --global user.email "a@a.com"`|To change and confirm configerations before commiting finally|
+|`git config --global user.name "a"`|TO change and confirm configerations before commiting finally|
+|`git commit -m "add key"`||
+|`git push origin master`|TO push the commits into the repo thorugh the master branch|
+### What I learnt:
+- We could have made a new file 'key.txt' using `nano` and then endered the text 'May I come in?' and it would have worked fine. But by using `echo "May I come in?" > key.txt` we smartly used the commands and finished the job in a single command.
+---
+
+# Level 32 → 33
+### Objective: Find the password for the last time for that last level
+### What I thought and executed:
+1. After using `ssh` and the password for this level, the interface looked different. It wasen't normal shell script as there was no `$` in the terminal before keyboard input, instead there was `>`. In the terminal introduction it said this was UPPERCASE Shell, where everything entered would automatically be converted to uppercase.
+2. This meant that running `ls` wouldn't work as the shell would take it as `LS` which is nothing.
+3. I had no prior knowledge regarding this, so I googled it and found that the variable `$0` isnt affected by this UPPERCASE Shell as its a special variable. On entering this into the terminal, the terminal shifts to normal Shell script as teh `$` appears.
+4. I ran `whoami` and surpisingly, it read bandit33. I asked Claude why this was the case.
+5. UPPERCASE Shell is a setuid binary owned by bandit33. So, on entering `$0`, we escaped the UPPERCASE Shell as a new Shell script expanded and the permissions of UPPERCASE Shell were inherited by this new shell.
+6. We have permissions of bandit33 user, so `cat /etc/bandit_pass/bandit33` is readable.
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`$0`|To return to normal Shell script from UPPERCASE Shell|
+|`whoami`|To check who the user is of this newly made Shell script|
+|`cat /etc/bandit_pass/bandit33`|To read password of level 33|
+### What I learnt:
+- `$0` is a special variable (on which UPPERCASE Shell doesnt work) that exapanded to form a new normal Shell script (having `$` in the start instead of `>`). In this process, permission of level 33 were also passed onto the newly made Shell script as UPPERCASE Shell is a setuid binary belonging to level 33.
+---
+# End of Levels !
+---
