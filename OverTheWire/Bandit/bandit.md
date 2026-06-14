@@ -568,23 +568,24 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 3. The file will also have to be made executable using `chmod +x file_adddress_and_name` so that the shell can execute the loop and keep generating all possible 4 digit pincodes from 0000 to 9999.
 4. I googled the syntax for the loop. I ran `nano /tmp/bruteforce.sh` to make a file of the filename 'bruteforce.sh'.
    In the file I typed:
-        #!/bin/bash
-        for i in $(seq -w 0000 9999); do
-            echo "gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 $i"
-        done | nc localhost 30002
+```
+#!/bin/bash
+    for i in $(seq -w 0000 9999); do
+        echo "gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 $i"
+    done | nc localhost 30002
+```
 5. Then I did `ctrl + x` to close the file, `yes` and `enter`.
 6. I ran `chmod +x /tmp/bruteforce.sh` to make the file 'bruteforce.sh' an executable file. 
 7. I ran `/tmp/bruteforce.sh` to execute this file. In the terminal ouptut, 'wrong' will be printed continuously untill the correct four digit numeriv pincode is entered. It will then display the password for the next level in the terminal output.
 ### What was required:
-|Commands Required (in order) |Purpose                                                                                                  |
-|-----------------------------|---------------------------------------------------------------------------------------------------------|
-|`nano /tmp/bruteforce.sh`    |To create a file 'bruteforce.sh' an entered the required data as discussed in point 4 of previous section|
-|`chomd +x /tmp/bruteforce.sh`|To make the file executable                                                                              |
-|`/tmp/bruteforce.sh`         |To execute the executable file 'bruteforce.sh'                                                           |
+|Commands Required (in order) |Purpose        |
+|-----------------------------|------------------------------------------------------------------|
+|`nano /tmp/bruteforce.sh`|To create a file 'bruteforce.sh' an entered the required data as discussed in point 4 of previous section|
+|`chomd +x /tmp/bruteforce.sh`|To make the file executable|
+|`/tmp/bruteforce.sh`|To execute the executable file 'bruteforce.sh'   |
 ### What I learnt:
 - The extension on file 'bruteforce.sh', i.e. '.sh' is just for us humans, so that at a glance we can tell that this is a shell script. For the system, the first line of this file, i.e. `#!/bin/bash` tells the system that this a shell script.
 - 'tmp' is the temporary directory in Linux that stores all temporary files.
-
 ---
 
 # Level 25 → 26
@@ -592,5 +593,52 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 ### What I thought and executed:
 1. I ran `man more`. The `ls` and `more bandit26.sshkey`. There is little but crucial difference in `more`, `cat` and `cat` (disscussed in 'What I learnt:' section). 
 2. I ran `cat /etc/shells` to check the available valid login shells. `more` was being used.
-3. I googled the trick because I had no idea what to do for this level.
-4. I had to run `ssh -i /home/bandit25/bandit26.sshkey bandit26@localhost -p 2220`, the normal `ssh` command while using a passkey, but with the terminal size shrunken down to 1-2 lines. This was because, `more` is like `ls` but instead of listing *all the files at once* as in `cat`, `more` displays one screenfull of text and waits for an output, thus allowing us to interact with the shell.
+3. I ran `cat bandit26ssh.key` and copied the entire context and exited bandit25 to enter my localmachine.
+4. Then I ran `nano bandit26.sshkey`, pasted the copied contexts, `ctrl+x` and closed it.
+5. I ran `chmod 600 bandit26.sshkey` to change permissions of this file to that of a private ssh key file.
+6. Through my local machine, I ran `ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220` with the terminal shrunken to 1-2 lines. 
+7. If the command is entered without shrinking the terminal window size to 1-2 lines, then `more` doesn't stop for keyboard input, and the file is written in such a way that after loading bandit26, it immediately kicks us out of there.
+8. Something like `more(15%)` should show up. Then I typed `v` to open the `vi` editor (an editor similar to `nano`).
+9. In the `vi` editor I typed `:set shell=/bin/bash` to change the file to a normal bash fileand pressed enter.
+10. To activate it, I typed `:shell` and pressed enter. Now, the file type is bash (`more` also changes to green and shows like `--More--`).
+11. Now, I we are in bandit26. To obtain password of curreny level, I ran `cat /etc/bandit_pass/bandit26`.
+### What was required:
+|Commands (in order)|Purpose|
+|-------------------|-------|
+|`ls`|To list the files in home directory|
+|`cat bandit26.sshkey`|To read the file bandit26.sshkey, copying its entire content, and exiting back to local machine|
+|`nano bandit26.sshkey`|To make file bandit26.sshkay, paste the copied content, and exit by `ctrl+x`|
+|`chmod 600 bandit26.sshkey`|To change the permissions of the file to that of private sshkey file|
+|`ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220`|To ssh into next level, via private key and terminal window shrunken to 1-2 lines|
+|`v`|To enter the `vi` editor|
+|`:set shell=/bin/bash`|To change file type to bash|
+|`:shell`|To activate above mentioned change|
+|`cat /etc/bandit_pass/bandit26`|To read the file for password of current level|
+### What I learnt:
+- |`cat`|`more`|`less`|
+  |-----|------|------|
+  |Dumps everything at once (even 1000 lines), user screen stops at the end of the document|Displays 1 screenfull of content, waits for us to read, then click `space` to continue|*`less` is 'more' but better* ~ You can scroll up and down, search with `i` and quit with `q`|
+- `vi` is another text editor like `nano` that opens up in the terminal.
+---
+
+# Level 26 → 27
+### Objective: To grab password of level 27 after entering shell from level 25
+### What I thought and executed:
+1. I ran `ls`.
+2. I ran `cat bandit27-do`. After reading the terminal output, I found out that using `bandit27-do` I gain access of bandit27, meaning I can easily read those files that only bandit27 has access to while being in bandit26.
+3. I ran `./bandit27-do cat /etc/bandit_pass/bandit27` to read the password of next level, with the access of level 27, through the file bandit27-do present in this directory (./).
+### What was required:
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
+|`ls`|To see which all files are in the home directory|
+|`cat bandit27-do`|To find out what this file does|
+|`./bandit27-do cat /etc/bandit_pass/bandit27`|To read password for level 27|
+### What I leanrt:
+-
+---
+
+# Level 27 → 28
+### Objective: TO find password for next level by cloning a repository from given URL and reading its conetent
+### What I thought and executed:
+1. I ran `sudo apt install git` to install git in the terminal.
+2. I ran `git clone "ssh://bandit27-git@bandit.labs.overthewire.org/home/bandit27-git/repo"` to clone the repo to my local machine. 
