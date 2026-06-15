@@ -28,7 +28,7 @@
 |`cat ./-`                    |To read the file '-' for the password                   |
 ### What I learnt:
 - `cat -` freezes the terminal as `-` is a Unix convention for stdin (standard input), so `cat -` waits for keyboard input, causing the terminal to freeze.
-- '-' poses a problem for a few Linux commands. `cat ./-` works (where '.' is for current directory, '/' is a separator. `./`) as it tells shell to interpret `-` as a **path** rather than a flag/option.
+- `cat ./-` works (where '.' is for current directory, '/' is a separator, `./` allows `cat` to search the current directory) as it tells shell to interpret `-` as a **path** rather than a flag/option.
 
 ---
 
@@ -39,8 +39,8 @@
 2. I ran `cat ./spaces in this filename`. This failed as it took 'spaces', 'in', 'this' and 'filename' as different filenames which obviously didn't exist in the home directory.
 3. I read the 'Helpful Reading Material' section on the [OverTheWire Bandit](https://overthewire.org/wargames/bandit/) for this particular level. 
 4. I found two solutions:
-    - Instead of `cat ./spaces in this filename`, I ran `cat ./spaces\ in\ this\ filename` which tells the shell to treat the soace following `\` as part of the filename rather than a separator.
-    - *shortcut* : Press tab after './spaces'. The system automatically types the file matching this initial name with the required additions of '\' wherever required. However this method fails when there are multiple files with the same prefix.
+    - Instead of `cat ./spaces in this filename`, I ran `cat ./spaces\ in\ this\ filename` which tells the shell to treat the space following `\` as part of the filename rather than a separator.
+    - *shortcut* : Press tab after './spaces'. The sshell automatically types the file matching this initial name with the required additions of `\` wherever required. However this method fails when there are multiple files with the same prefix.
 ### What was required:
 | Commands Required (in order)            |Purpose                                                                                       |
 |-----------------------------------------|----------------------------------------------------------------------------------------------|
@@ -48,7 +48,7 @@
 |`cat ./spaces\ in\ this\ filename` |To read the content of the file 'spaces in this filename' appropriately for the password|
 ### What I learnt:
 - Shell by default interprets spaces as arguments and `-` as flag prefix. Thus while writing filenames, *spaces* and `-` are followed by `\`. 
-- '\' is used to let the system know that the following space is to be used as a charcters rather than a separator. 
+- `\` is used to let the system know that the following space is to be used as a charcters rather than a separator. 
 
 ---
 
@@ -70,7 +70,7 @@
 |`ls -a`                     |To list hidden files in the directory               |
 |`cat filename`              |To read the content of the file                     |
 ### What I learnt:
-- While using `file` command, no need to use [] for the filename, its the wrong syntax, instead `file filename` is correct.
+- While using `file` command, no need to use [ ] for the filename, its the wrong syntax, instead `file filename` is correct.
 - `ls` can list readable directory entries.
 - By default in most terminals, `ls` color-codes output, with **directories typically shown in blue**.
 - `ls -a` can list hidden files.
@@ -92,7 +92,7 @@
 |`file ./*`                  |To check file types of all files in the current 'inhere' directory |
 |`cat filename`              |To read the filename for the password                              |
 ### What I learnt: 
-- `*` is a *glob/wildcard* that the shell expnds to all filenames in the current directory.
+- `*` is a *glob/wildcard* that the shell expands to all filenames in the current directory.
 - `./*` expands to all files in current directory, passing them as arguments to the command.
 
 ---
@@ -162,7 +162,7 @@
 1. I ran `man` command on the suggested commands of this level, `sort` and `uniq` were to be used but I didnt know how they are used together.
 2. I read the page linked under the 'Helpful Reading Material' for 'Pipelines and Redirections' and learnt that '|' is used for pipelining.
 3. Pipelining refers to the process where the output for the first command is used as input for the second command.
-4. I ran `sort data.txt | uniq -u` where 'sort data.txt' sorts the data based on occurence, '|' is used for pipelining result of `sort data.txt` into `uniq -u` command, `uniq` is command that searches patterns and '-u- is for 'repeated once'.
+4. I ran `sort data.txt | uniq -u` where 'sort data.txt' sorts the data based on occurence, '|' is used for pipelining result of `sort data.txt` into `uniq -u` command, `uniq` is command that searches patterns and `-u` is for 'repeated once'.
 ### What was required:
 |Commands Required (in order)        | Purpose                                                               |
 |------------------------------------|-----------------------------------------------------------------------|
@@ -253,47 +253,58 @@
 |`cd /tmp/tmp.BlJKXiMlnx`           |To switch directories                                                                    |
 |`xxd -r data.txt > data`           |To reverse the hexdump on 'data.txt' to a  new file 'data'                               |
 |`file data`                        |To check the type of compression on 'data'                                               |
+
+Process to decompress `gzip` compression:
+
+|Commands Required (in order)       |Purpose|
+|-----------------------------------|-------|
 |`mv data data.gz`                  |To rename the file 'data' to 'data.gz' to decompress the gzip compression                |
 |`gzip -d data.gz`                  |To decompress the file 'data.gz'                                                         |
 |`file data`                        |To check the next decompression on file 'data'                                           |
+
+Process to decompress `bzip2` compression:
+
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
 |`mv data data.bz2`                 |To rename the file 'data' to 'data.bz2' to decompress the bzip2 compression              |
 |`bzip2 -d data.bz2`                |To decompress the file 'data.bz2'                                                        |
 |`file data`                        |To check the next decopression                                                           |
-|`mv data data.gz`                  |To rename the file 'data' to 'data.gz' to decompress the 2nd gzip compression            |
-|`gzip -d data.gz`                  |To decompress the file 'data.gz'                                                         |
-|`file data`                        |To check the next decompression on file 'data'                                           |
+
+Process to decompredd `tar` compression:
+
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
 |`mv data data.tar`                 |To rename the file 'data' to 'data.tar' to decompress the tar compression                |
 |`tar -xf data data.tar`            |To decompress the archive data                                                           |
 |`ls`                               |To check the decompressed files from the 'data' archive                                  |
 |`file data5.bin`                   |Filing the obtained file from the archive                                                |
-|`mv data5.bin data5.tar`           |To rename the file 'data5.bin' to 'data.tar' to decompress teh tar compression           |
-|`tar -xf data data5.tar`           |To decompress the tar compression                                                        |
-|`ls`                               |To check the decompressed files from 'data5.tar' archive                                 |
-|`file data6.bin`                   |To check teh next decompression to be made                                               |
-|`mv data6 data6.tar`               |To rename file 'data6' to 'data6.tar' for decompression of tar                           |
-|`tar -xf data6.tar`                |To decompress tar                                                                        |
-|`ls`                               |To check the files obtianed from decompressed archive                                    |
-|`file data8.bin`                   |To check filetype of data8.bin                                                           |
+
+.
+.   (This process of decompression for `gzip`, `bzip2`, `tar` is done until ASCII type file isn't obtained.)
+.
+.
+
+|Commands Required (in order)|Purpose|
+|----------------------------|-------|
 |`mv data8.bin data8.gz`            |To rename file 'data8.bin' to 'data8.gz' to decompress the gzip compression              |
 |`gzip -d data8.gz`                 |To decompress the gzip compressio                                                        |
 |`file data8`                       |To chek file type of file 'data8'                                                        | 
-|`ct data8`                         |To read the content of ASCII file (human-readable file)                                  |
+|`cat data8`                        |To read the content of ASCII file (human-readable file)                                  |
 ### What I learnt:
-- To decompress the compression of gzip, bzip2 and tar, extensions of 'gz', 'bz2' and 'tar' respectively are required for the respectie files.
+- To decompress the compression of gzip, bzip2 and tar, extensions of 'gz', 'bz2' and 'tar' respectively are required for the respective files.
 - `tar` compresses multiple files to form an archive where as 'gzip' and 'bzip2' compress singular files.
-
 ---
 
 # Level 13 → 14
 ### Objective: To find the private SSH key stored in '/etc/bandit_pass/bandit14', only accessible by user bandit14
 ### What I thought and executed: 
-1. I ran `ls` command to check which all files are inthe directory. I ran `cat HELP` and `cat sshkey.private`. Access denied for `cat sshkey.privatr`.
+1. I ran `ls` command to check which all files are in the directory. I ran `cat HELP` and `cat sshkey.private`. Access denied for `cat sshkey.private`.
 2. I ran `cat /etc/bandit_pass/bandit14` but access denied again. I realised that access is only for user bandit14.
-3. I read about SSH/OpenSSH/keys on teh 'Helpful Reading Material' section on the official website [OverTheWire Bandit](https://overthewire.org/wargames/bandit/).
+3. I read about SSH/OpenSSH/keys on the 'Helpful Reading Material' section on the official website [OverTheWire Bandit](https://overthewire.org/wargames/bandit/).
 4. I ran `scp -p 2220 bandit13@bandit.labs.overthewire.org:~/sshkey.private .`. `scp` is Secure Copy Protocol that safely transfers files and directories between different systems over a network. This command translates to 'on that server logged in as bandit13, grab file sshkey.private from home directory'. The '.' at the end is to copy the file to my current directory o my local machine.
 5. I ran `exit` to exit from 'bandit13' directory. Then on my local machine/VM I ran `ssh -i sshkey.private bandit14@bandit.labs.overthewire.org -p 2220` where, 'ssh' is secure shell command, '-i sshkey.private' is used as my private key instead of the usual password, 'bandit14' is the user, 'bandit.labs.overtewire.org' is the remote server being entered and '-p 2220' is the port for bandit rather than the standar port 22 for `ssh` commands.
 6. I ran into an error as 'sshkey.private' permissions (0640) are too open. For a private jey, it should have permissions that restrict usage of the file only to the owner, thus `chmod` command is used.
-7. I ran `chmod 600 sshkey.private` (which should have been run before the ssh command) where 'chmod' is the command used, '6' is '-rw- i.e. only owner can read and write, '0' group gets nothing and last '0' for 'others get nothing'.
+7. I ran `chmod 600 sshkey.private` (which should have been run before the ssh command) where `chmod` is the command used, '6' is '-rw' i.e. only owner can read and write, '0' ~ 'group gets nothing' and last '0' ~ 'others get nothing'.
 8. Then run ssh command again and obtain the password for level 14, that can be entered when trying to log into bandit14 level from the outside directly.
 ### What was required:
 |Commands Required (in order)                                         |Puprose                                                    |
@@ -315,9 +326,9 @@
 ---
 
 # Level 14 → 15
-### Objective: To retrieve the passowrd by submitting password of current level to port 30000 on localhost
+### Objective: To retrieve the password by submitting password of current level to port 30000 on localhost
 ### What I thought and executed:
-1. I ran `man` on suggested commands (`ssh`, `telnet`, `nc`, `openssl`, `s_client` and `nmap`) and figured that `nc` (netcat)is the way to go as it is used as a raw pipe between 2 machines over a network without any encryption.
+1. I ran `man` on suggested commands (`ssh`, `telnet`, `nc`, `openssl`, `s_client` and `nmap`) and figured that `nc` (netcat) is the way to go as it is used as a raw pipe between 2 machines over a network without any encryption.
 2. I ran `nc localhost 30000` where 'localhost' is the machine to connect to and '30000' is the port.
 3. It requested to enter the password of current level and returns output as the password for the next level.
 ### What was required:
@@ -349,13 +360,13 @@
 ### What I thought and executed:
 1. A 'listening port' is an active port waiting for connection. Its like a door behind which someone is waiting to answer.
 2. I am effectively looking for a 'port scanner' right now.
-3. The `nmap` command is a port scanner, so I ran `namp -p 31000-32000 localhost` where 'nmap' is the command, '-p 31000-32000' is the port range and 'localhost' is the machine being scanned.It shows all the listed ports (in my caase,5: 31046, 31518, 31691, 31790 and 31960)
+3. The `nmap` command is a port scanner, so I ran `namp -p 31000-32000 localhost` where 'nmap' is the command, '-p 31000-32000' is the port range and 'localhost' is the machine being scanned. It shows all the listed ports (in my caase,5: 31046, 31518, 31691, 31790 and 31960)
 4. To check if they speak SSL/TSL, I ran the command `openssl s_client -connect localhost:port -ign_eof`. All but 2 ports (31518 and 31790) showed no result or returned my entered password of the current level as it is.
 5. Before adding '-ign_eof' the system thought that right after passing data or its standard output, it was 'end of communication' thus would automatically close the route. '-ign_eof' stands for 'ignore end of file' which allows system to pause after sending all required data, thus comfortably allowing me to enter the password for this level or using the 'k' command when it read KEYUPDATE. 'k' command is to continue the system as it is and expect an output as well.
 6. The port '31790' I got a passkey for the next level.
 7. I googled this part, as to what to do with the passkey, because unlike level 13 → 14 where the passkey was already stored in a file, I had to make a file here and then move forward.
-8. I coppied the entire passkey, from'---Banit to ---' using ctrl+c after selecting all of it. I ran `exit` to exit the bandit terminal.
-9. I ran `nano bandit17.key` where 'nano' is a simple text editor that works in the terminal. On entering this, I pasted the passkey with ctrl+v, exitedit with ctrl+x 'yes' and 'continue'.
+8. I copied the entire passkey, from'---Bandit to ---' using ctrl+c after selecting all of it. I ran `exit` to exit the bandit terminal.
+9. I ran `nano bandit17.key` where 'nano' is a simple text editor that works in the terminal. On entering this, I pasted the passkey with ctrl+v, exited with ctrl+x 'yes' and 'continue'.
 10. Then I ran `chmod 600 bandit17.key` to change its permisions making it fit for a private key that SSH can use.
 11. I ran `ssh -i bandit17.key bandit14@bandit.labs.overthewire.org -p 2220`.
 12. Once in the bandit17 server, I ran `cat /etc/bandit_pass/bandit17` to store the password of level 17 so that I can use it to enter the level externally via the normal SSH command.
@@ -373,7 +384,6 @@
 ### What I learnt:
 - Password for a level (say 17) is always stored in file '/etc/bandit_pass/bandit17'.
 - The `nano` command is a simple text editor that works through the terminal.
-
 ---
 
 # Level 17 → 18
@@ -386,13 +396,12 @@
 |`diff passwords.old passwords.new`|To identify the different lines in 'passwords.old' and 'passwords.new'|
 ### What I leanrt:
 -
-
 ---
 
 # Level 18 → 19
 ### Objective: To find the password for the next level stored in a file 'readme' on the homedirectory that has been hacked to log out as soon as you loggin.
 ### What I thought and executed:
-1. On simply trying to run `ssh` command, '-bashrec' runs immediatley after the full shell is launched and logs me out of bandit..thus the 'bye bye!'.
+1. On simply trying to run `ssh` command, `-bashrec` runs immediatley after the full shell is launched and logs me out of bandit..thus the 'bye bye!'.
 2. So we can run the `cat readme` command as soon as we're in the server rather than after the full shell has logged in.
 3. I googled how to do this and thus ran the command `ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"`. The command in "" runs immediately on the server.
 ### What was required:
@@ -401,19 +410,18 @@
 |`ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"`|To run the `cat` readme command immeadiatley after `ssh` without waiting for the full shell to load|
 ### What I learnt:
 - The command in "" runs immediately by bypassing the interactive login shell.
-
 --- 
 
 # Level 19 → 20
-### Objective: To fin the password in'/etc/bandit_pass/banditlevel' after correctly executing the 'setuid binary' command in the home directory
+### Objective: To find the password in '/etc/bandit_pass/banditlevel' after correctly executing the 'setuid binary' command in the home directory
 ### What I thought and executed:
 1. I ran `ls` command, and got an 'executable file' i.e. a file that can be run as an individual programme.
-2. I ran `./bandit20-do` where './' means 'run this file from current directory.
+2. I ran `./bandit20-do` where `./` means run this file from current directory.
 3. I read about 'setuid' on wikipedia as suggested in the 'Helpful Reading Material'.
 4. I ran `./bandit20-do whoami` as suggested in the terminal output.
 5. This command gives me access to files that only bandit20 has access to i.e. the `cat /etc/bandit_pass/bandit20` command.
 6. So I ran `./bandit20-do cat /etc/bandit_pass/bandit20` to use the command `cat` while having the access of 'bandit20' via the executable file 'bandit20-do'.
-7. These 2 commands don't work seperately, i.e. `./bandit20-do`, enter, and then `cat /etc/bandit_pass/bandit20` as when we execute the command `cat` seperatley, we are execute it as 'bandit19' user, who doesn't have access to '/etc/badndit_pass/bandit20'.
+7. These 2 commands don't work seperately, i.e. `./bandit20-do`, enter, and then `cat /etc/bandit_pass/bandit20` as when we execute the command `cat` seperately, we execute it as 'bandit19' user, who doesn't have access to '/etc/badndit_pass/bandit20'.
 ### What was required:
 |Commands Required (in order)                 |Purpose                                                         |
 |---------------------------------------------|----------------------------------------------------------------|
@@ -423,7 +431,6 @@
 |`./bandit20-do cat /etc/bandit_pass/bandit20`|To access the password for level 20 by having access of bandit20|
 ### What I learnt:
 - To execute executable files of name 'file', we run command `./file` which is 'execute the file 'file' in this directory.
-
 ---
 
 # Level 20 → 21
@@ -441,11 +448,11 @@
       |Commands I ran for `tmux` approach|Purpose|
       |----------------------------------|-------|
       |`tmux`|To start 'tmux'|
-      |Ctrl+b then " |To split it itno 2 panes|
+      |Ctrl+b|To split it into 2 panes|
       |`echo "0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO" \| nc -l -p 1234`| To be run in the top pane, for the password of the previous level to be given to port 1234|
       |Ctrl+b then arrow down|To switch to the bottom pane|
       |`./suconnect 1234`|To read the password of previous level from port 1234|
-    - *shortcut* `echo "0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO" \| nc -l -p 1234 & ./suconnect 1234` to run both commands at same time, However this gave an error as th 'suconnect' was way faster than the echo and didnt find anything at the port 1234, thus failed. Then I ran
+    - *shortcut* `echo "0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO" \| nc -l -p 1234 & ./suconnect 1234` to run both commands at same time, However this gave an error as the 'suconnect' was way faster than the echo and didnt find anything at the port 1234, thus failed. Then I ran
     `echo "0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO" \| nc -l -p 1234 & sleep 1 && ./suconnect 1234` allowing the system to pause for 1 second and then allowing 'suconnect' to read the password from the port 1234.
 9. I went with the shortcut method for this one.
 ### What was required:
@@ -455,13 +462,12 @@
 |`./suconnect`|To know what the 'suconnect' command did                                  |
 |`echo "0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO" \| nc -l -p 1234 & sleep 1 && ./suconnect 1234`|To read the password of the previous level from a listening port|
 ### What I learnt:
-- In the syntax of the `man` pages of commands, things written in [] don't actually require to be entered in the terminal with the [].
-- `echo` is a basic linux command/tool that prints simple texts or characters in written in "".
+- In the syntax of the `man` pages of commands, things written in [ ] don't actually require to be entered in the terminal with the [].
+- `echo` is a basic linux command/tool that prints simple texts or characters in written in " ".
 - `nc` or 'netcat' is the simplest command to open a port on localhost and to send data to whatever it is connected to.
 - This level was a basic introduction to TCP client/server interaction.
-- `&` allows 2 commands to be run simultaneously.
+- `&` allows 2 commands to be run simultaneously, while `&&` allows 3 to be run simultaneously.
 - `sleep 1` means allowing the system to pause for 1 second before executing the command on the right.
-
 --- 
 
 # Level 21 → 22
