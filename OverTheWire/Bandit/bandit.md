@@ -3,7 +3,7 @@
 ### What I thought and executed:
 1. I ran `man` on the suggested commands (`ls`, `du`, `cat`, `file`, `cd`(no `man cd` exists) and `find`) in the official site for overthewire bandit i.e. [OverTheWire Bandit](https://overthewire.org/wargames/bandit/).
 2. `ls` lists all the files readable/nonreadable present in the current directory.
-3. `cat` reads the content of a selected file and displays output in the terminal .
+3. `cat` reads the content of a selected file and displays output in the terminal.
 ### What was required:
 | Command Required (in order)   | Purpose                                                      |
 |-------------------------------|--------------------------------------------------------------|
@@ -12,7 +12,6 @@
 ### What I learnt:
 - SSH sessions start in the user's home directory by default.
 - In `bandit1@bandit.labs.overthewire.org -p 2220`, *bandit1* is the username, *bandit.labs.overthewire* is the server address and *-p 2220* is the port address.
-
 ---
 
 # Level 1 → 2
@@ -29,7 +28,6 @@
 ### What I learnt:
 - `cat -` freezes the terminal as `-` is a Unix convention for stdin (standard input), so `cat -` waits for keyboard input, causing the terminal to freeze.
 - `cat ./-` works (where '.' is for current directory, '/' is a separator, `./` allows `cat` to search the current directory) as it tells shell to interpret `-` as a **path** rather than a flag/option.
-
 ---
 
 # Level 2 → 3
@@ -49,7 +47,6 @@
 ### What I learnt:
 - Shell by default interprets spaces as arguments and `-` as flag prefix. Thus while writing filenames, *spaces* and `-` are followed by `\`. 
 - `\` is used to let the system know that the following space is to be used as a charcters rather than a separator. 
-
 ---
 
 # Level 3 → 4
