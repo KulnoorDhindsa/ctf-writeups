@@ -219,9 +219,6 @@
 |---------------------------------------------|-------------------------------------------------------------|
 |`ls`                                         |To make sure file 'data.txt' exists in home directory        |
 |`cat data.txt \| tr 'A-Za-z' 'N-ZA-Mn-za-m'` |To rotate the characters of file 'data.txt' by 13 characters |
-### What I learnt:
-- 
-
 ---
 
 # Level 12 → 13
@@ -322,7 +319,6 @@ Process to decompredd `tar` compression:
     - port 443: HTTPS
     - PORT 2220: bandit's custom SSH doors
 - Private keys have limited permissions and SSH refuses to use private keys that aren't only accessible by users.
-
 ---
 
 # Level 14 → 15
@@ -337,7 +333,6 @@ Process to decompredd `tar` compression:
 |`nc localhost 30000`        |To connect with 'localhost' machine via port 30000|
 ### What I learnt:
 - `nc` command is used to connect 2 machines on the network directly, without encryption.
-
 ---
 
 # Leve 15 → 16
@@ -352,7 +347,6 @@ Process to decompredd `tar` compression:
 |`openssl s_client -connect localhost:31000`|To establish connection between localhost and port 31000|
 ### What I learnt:
 - `s_client` and `nc` differ only in the sense that one encrypts data with SSH/TLS while the other simply connects host and port.
-
 ---
 
 # Level 16 → 17
@@ -394,8 +388,6 @@ Process to decompredd `tar` compression:
 |Commands Required (in order)      |Purpose                                                               |
 |----------------------------------|----------------------------------------------------------------------|
 |`diff passwords.old passwords.new`|To identify the different lines in 'passwords.old' and 'passwords.new'|
-### What I leanrt:
--
 ---
 
 # Level 18 → 19
@@ -493,7 +485,6 @@ Process to decompredd `tar` compression:
 |`cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv`| To read the file address returned in the terminal output|
 ### What I leanrt:
 - ALWAYS read the terminal output and follow the guidelines of the terminal output.
-
 ---
 
 # Level 22 → 23
@@ -520,9 +511,6 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 |`cat cranjob_bandit23`                                 |To read the relevant file for this level |
 |`echo "I am user bandit23" \| md5sum\| cut -d ' ' -f 1`|                                         |
 |`cat /tmp/8ca319486bfbbc3663ea0fbe81326349`            |                                         |
-### What I learnt:
--
-
 ---
 
 # Level 23 → 24
@@ -639,8 +627,6 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 |`ls`|To see which all files are in the home directory|
 |`cat bandit27-do`|To find out what this file does|
 |`./bandit27-do cat /etc/bandit_pass/bandit27`|To read password for level 27|
-### What I leanrt:
--
 ---
 
 # Level 27 → 28
@@ -662,7 +648,7 @@ which was the **wrong** move, as it took 'whoami' as bandit22 by defualt, thus r
 |`ls`|To check the list of files in 'repo' directory|
 |`cat README`|To read the file 'README'|
 ### What I learnt:
-- **repository** = **directory** = **folder** 
+- **repository** = **directory** = **folder** (sort of *bandit jargon*)
 ---
 
 # Level 28 → 29
