@@ -49,7 +49,19 @@ visibility: hidden !important
 1. Right click and select `View page source`.
 2. Carefully look at the `<img src="files/pixel.png"` tag and open the `files` folder on the server and read the password.
 ### What I learnt:
-1. To carefully read the code, output etc not once but many times, there can be many things missed.
-2. To look at code in a way that even `<img src="files/pixel.png"` read not as 'oh, there is an img in this code' but as 'oh, there is a folder `files` on this server' as first instinct.
-3. In the `<script></script>` tag, the password for the current levelis written with a `pass` condition for the same.
+- To carefully read the code, output etc not once but many times, there can be many things missed.
+- To look at code in a way that even `<img src="files/pixel.png"` read not as 'oh, there is an img in this code' but as 'oh, there is a folder `files` on this server' as first instinct.
+- In the `<script></script>` tag, the password for the current levelis written with a `pass` condition for the same.
+---
+# Level 3 → 4
+### Objective: Figuring out the password for next level but "There is nothing on this page"
+### What I thought and executed:
+1. I right clicked `inspect` and `View source code` for this page and explored, no hidden comments and no `<img>` tage to tell me if there were any hidden files stored on the server.
+2. I still tried the URL `http://natas3.natas.labs.overthewire.org/files/` but there was no `files` folder.
+3. In one of the comments in the code of `View source code`, there was a comment stating that 'not even Google can help me here'...which prompted me to google this level and I got the hint of `robots.txt`.
+4. `robots.txt` is a text file stored in the server which tells the server which pages they can and can't visit. So, there might be a few *hidden pages* for a website that the server is not allowed to show the client. So, I entered the URL `http://natas3.natas.labs.overthewire.org/robots.txt`.
+5. It showed a mini table with a file *users.txt*, like the last level.
+6. I opened `users.txt` file and got the password for the next level.
+### What I learnt:
+- `robots.txt` is a file stored on the server which contains the files that the server is and isn't allowed to visit, meaning few hidden files may be stored there.
 ---
