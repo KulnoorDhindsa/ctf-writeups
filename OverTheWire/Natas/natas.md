@@ -62,6 +62,32 @@ visibility: hidden !important
 4. `robots.txt` is a text file stored in the server which tells the server which pages they can and can't visit. So, there might be a few *hidden pages* for a website that the server is not allowed to show the client. So, I entered the URL `http://natas3.natas.labs.overthewire.org/robots.txt`.
 5. It showed a mini table with a file *users.txt*, like the last level.
 6. I opened `users.txt` file and got the password for the next level.
+### What was required: 
+1. Entering the URL `http://natas3.natas.labs.overthewire.org/robots.txt`, clicking the `users.txt` file and obtaining the password.
 ### What I learnt:
 - `robots.txt` is a file stored on the server which contains the files that the server is and isn't allowed to visit, meaning few hidden files may be stored there.
+---
+# Level 4 → 5
+### Objective: Figuring out the password to the next level but access is only given to 'natas5', not natas4 user
+### What I thought and executed: 
+1. Since it read that only `natas5` user is allowed permission and not `natas4`, I had to either login as `natas5` or make it look like I'm `natas5` user. 
+2. I tried to login natas5 website, but without the correct password, that attempt failed.
+3. I googled, (rather used  CLAUDE), as to how do I make it look like I'm `natas5` and not `natas4` user, I was suggested `curl` which comes pre-installed in windows 10/11.
+4. There are 2 ways to go forward from here:
+5. Method 1
+    1. I had already installed **Burpsuite**, so I manually turned on the **Intercept mode** in Burpsuite and in settings of my laptop, I turned proxy settings on, and connected it to port: 8080 and IP address `127.0.0.1`.
+    2. Then I refreshed the page of `natas4`, and Burp caught the request, which was raw HTTP, there I scrolled down to `Referer` header and changed it to `http://natas5.natas.labs.overthewire.org`, making it look like I was `natas5` user and not user `natas4`. And the password to next level was visible.
+6. Method 2
+    1. Using the `curl` command in **command prompt** as `curl -u natas4:password_to_natas4 -e "http://natas5.natas.labs.overthewire.org"` where `-u` tag is for *user* and is of the format *-u user:password* and `-e` tag is for *referer* header.
+    2. This command directly changes the *referer* header without requiring a *proxy*. And the password for next level was visible on the page.
+### What was required:
+1. `curl -u natas4:password_to_natas4 -e "http://natas5.natas.labs.overthewire.org"` to directly alter the **referer** header to natas5 without requiring a *proxy*.
+### What I learnt:
+>A **proxy** sits in between browser and server. Every request made by browser, is first sent to proxy, which then *forwards* it to the server.
+
+>Any data orignating from client side (like headers, cookies and js-side validation) has no proof, and is just something asserted by the client. This allows client side checks to by *by-passed*.
+
+- **Burp Suite** is a *proxy server*.
+- The IP address `127.0.0.1` means **this localhost machine**. Its's used here so that Burp Suite can send/recieve traffic to/from my localhost machine only, and not from somewhere else on the internet.
+- Port `8080` is the by-default port that burp Suite listens to and is active on.
 ---
