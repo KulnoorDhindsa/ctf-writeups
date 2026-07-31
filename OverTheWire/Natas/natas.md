@@ -17,6 +17,7 @@
 - Dev Tools, *automatically* collapses the content of `<body></body>` to save screen space, by using `<body>...</body>` (`...` are *ellipses*).
 - After reading the content of the `<body></body>` or any other collapsed content of any tag, to get the *ellipses* `...` back, small **triangle/arrow icon** appears beside the text, when clicked, restores code to the collapsed form.
 - Go through the code **carefully**, read terminal outputs carefully, hints are usually right infront.
+- Certain detailes can be easily *compromised* in the code, or even the terminal outputes which are mostly logged and stored somewhere.
 ---
 # Level 1 → 2
 ### Objective: Figuring out the password for next level on a webpage but right click isn't allowed
@@ -90,4 +91,26 @@ visibility: hidden !important
 - **Burp Suite** is a *proxy server*.
 - The IP address `127.0.0.1` means **this localhost machine**. Its's used here so that Burp Suite can send/recieve traffic to/from my localhost machine only, and not from somewhere else on the internet.
 - Port `8080` is the by-default port that burp Suite listens to and is active on.
+- This can and probably has become a common method of hacking systems, by intervening active *response* and *requests* from end-systems, falsifying information or even copying data.
+---
+# Level 5 → 6
+### Objective: Figuring the password for the next level but "Access dissalowed. You are not logged in."
+### What I thought and executed
+1. I tried `http://natas5.natas.labs.overthewire.org/robots.txt/` to check is the password was in there, but this page doesnt exist. (due to the `404 Error` which means 'not found').
+2. I right clicked and selected `inspect` and checked `Elements` along with `View page source`, but found nothing. I viewd the same again and again incase I overlooked something, but nothing.
+3. Then I thought, it says 'Access dissalowed' and 'not logged in', in websites requiring logins, `cookies` are responsible for knowing my identity as I scroll through the website. I googled how to look at 'active cookies' on a website using 'dev tools'.
+4. In `inspect`, I went to `Network` menu, refreshed the page and clicked on the first link that shared the name of the URL. I scrolled through it, and found two sections `Request Headers` and `Response Headers`, and under both of them was `cookies` section. 
+5. The `Request Header` has `loggedin=0` and `Response Header` had a `ga_` followed by a string, which I found out was **Google Analytics Tracking Cookies** of the website OverTheWire, which I figured was had nothing to do with this specific level.
+>All client side data is not proof, and is just an **assertion**. So, this can be falsified.
+6. I searched how to change the value of a cookie on a website using dev tools in Natas. Then I went on `Application` and in *Cookies*, there was a cookie named `http://natas5.natas.labs.overthewire.org`, I clicked it, then on the 'value' section where it said `loggedin=0`.
+7. I first tried `natas5`, but it failed. Then I got to thinking, `natas5` didn't work, the password won't work either. After a few minutes, it hit that computer's response is either `0` or `1`. If it isn't `0`, it has got to be `1`. Then I refreshed the page, and the password was visible on the screen.
+### What was required:
+1. To right click, `Network`, refresh the page, select the page sharing with the URL.
+2. Look throught the headers, and under headers, `Request Header`, it said `cookie  loggedin=0`.
+3. In `Application` and then `storage`, selecting the cookie under `cookie` that shares the URL, double clicking the value `0`, changing it to `1` and refreshing the page.
+### What I learnt:
+- Cookies are responsible for knowing our identity (IP address, username (if logged in)) while we look through the website. 
+- Slight *binary* changes in the code, can possibly lock people out of their accounts
+- Computer communicates in binary, and it's responses will be either `0` meaning *no*/*False* and `1` meaning *yes*/*True*.
+- Since client side information is just **assertion** and has no proof, it can be altered and not be questioned.
 ---
