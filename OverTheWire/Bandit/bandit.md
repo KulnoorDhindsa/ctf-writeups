@@ -758,11 +758,6 @@ which was the **wrong** move, as it took 'whoami' to be bandit22 by default, so 
 |`cat /etc/bandit_pass/bandit33`|To read the password of level 33|
 ### What I learnt:
 - `$0` is a special variable (unaffected by the UPPERCASE Shell) that, when entered, expands into a new normal shell (with `$` at the start instead of `>`). In this process, the permissions of level 33 were also passed onto the newly made shell, as UPPERCASE Shell is a setuid binary belonging to level 33.
-<<<<<<< HEAD
-=======
----
-# End of Levels!
->>>>>>> d7db06b04a31192b4b4015e7e21173d8bfa1d59b
 ---
 # End of Levels!
 ---
