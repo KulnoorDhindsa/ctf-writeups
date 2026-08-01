@@ -114,3 +114,18 @@ visibility: hidden !important
 - Computer communicates in binary, and it's responses will be either `0` meaning *no*/*False* and `1` meaning *yes*/*True*.
 - Since client side information is just **assertion** and has no proof, it can be altered and not be questioned.
 ---
+# Level 6 → 7
+### Objective: Figuring out the password for next level but `Input Secret: `
+### What I thought and executed: 
+1. I right clicked and selected `inspect`, viewd the html code, which had a new `<form></form>` tag, which labeled the input as *secret*.
+2. Then I went to `Network`, refreshed teh page and scrolled through the headers, it had `gzip` encoding and the accepted encoding was `gzip` in english.
+3. I also found in `authorisation` in network, a *string* but it wasen't the password.
+4. Then I clicked the `View Sourcecode` link given on the home page. This code had `<?></?>` tag, which included `include "includes/secret.inc"`.
+5. I went to `http://natas6.natas.labs.overthewire.org/includes/secret.inc` which opened another html page with the `secret`, which was a string.
+6. I entered this `secret` string in the input box on the home page, and I got the password.
+### What was required:
+1. Click the `View Sourcecode` link on the home page, look at the `include "includes/secret.inc"`.
+2. Go to `http://natas6.natas.labs.overthewire.org/includes/secret.inc`, copy the *secret* string, paste it in the input box on the home page, and get the password.
+### What I learnt:
+1. To look at html code with attachements not as 'this is an attachement link', but as 'there are these folders on the server which may contain more than just the attachement (be it video, image or a file)'.
+---
