@@ -71,61 +71,61 @@ visibility: hidden !important
 # Level 4 → 5
 ### Objective: Figuring out the password to the next level but access is only given to 'natas5', not natas4 user
 ### What I thought and executed: 
-1. Since it read that only `natas5` user is allowed permission and not `natas4`, I had to either login as `natas5` or make it look like I'm `natas5` user. 
+1. Since it read that only `natas5` user is allowed permission and not the `natas4`, I had to either login as `natas5` or make it look like I'm `natas5` user. 
 2. I tried to login natas5 website, but without the correct password, that attempt failed.
 3. I googled, (rather used  CLAUDE), as to how do I make it look like I'm `natas5` and not `natas4` user, I was suggested `curl` which comes pre-installed in windows 10/11.
 4. There are 2 ways to go forward from here:
 5. Method 1
     1. I had already installed **Burpsuite**, so I manually turned on the **Intercept mode** in Burpsuite and in settings of my laptop, I turned proxy settings on, and connected it to port: 8080 and IP address `127.0.0.1`.
-    2. Then I refreshed the page of `natas4`, and Burp caught the request, which was raw HTTP, there I scrolled down to `Referer` header and changed it to `http://natas5.natas.labs.overthewire.org`, making it look like I was `natas5` user and not user `natas4`. And the password to next level was visible.
+    2. Then I refreshed the page of `natas4`, and Burp caught the request, which was raw HTTP, there I scrolled down to the `Referer` header and changed it to `http://natas5.natas.labs.overthewire.org`, making it look like I was `natas5` user and not a `natas4`. And the password to the next level was visible.
 6. Method 2
     1. Using the `curl` command in **command prompt** as `curl -u natas4:password_to_natas4 -e "http://natas5.natas.labs.overthewire.org"` where `-u` tag is for *user* and is of the format *-u user:password* and `-e` tag is for *referer* header.
-    2. This command directly changes the *referer* header without requiring a *proxy*. And the password for next level was visible on the page.
+    2. This command directly changes the *referer* header without requiring a *proxy*. And the password for the next level was visible on the page.
 ### What was required:
 1. `curl -u natas4:password_to_natas4 -e "http://natas5.natas.labs.overthewire.org"` to directly alter the **referer** header to natas5 without requiring a *proxy*.
 ### What I learnt:
->A **proxy** sits in between browser and server. Every request made by browser, is first sent to proxy, which then *forwards* it to the server.
+>A **proxy** sits in between the browser and server. Every request made by the browser is first sent to the proxy, which then *forwards* it to the server.
 
->Any data orignating from client side (like headers, cookies and js-side validation) has no proof, and is just something asserted by the client. This allows client side checks to by *by-passed*.
+>Any data originating from the client side (like headers, cookies and JS-side validation) has no proof, and is just something asserted by the client. This allows client-side checks to by *by-passed*.
 
 - **Burp Suite** is a *proxy server*.
-- The IP address `127.0.0.1` means **this localhost machine**. Its's used here so that Burp Suite can send/recieve traffic to/from my localhost machine only, and not from somewhere else on the internet.
-- Port `8080` is the by-default port that burp Suite listens to and is active on.
-- This can and probably has become a common method of hacking systems, by intervening active *response* and *requests* from end-systems, falsifying information or even copying data.
+- The IP address `127.0.0.1` means **this localhost machine**. It's used here so that Burp Suite can send/recieve traffic to/from my localhost machine only, and not from somewhere else on the internet.
+- Port `8080` is the by-default port that Burp Suite listens to and is active on.
+- This can and probably has become a common method of hacking systems, by intervening in active *responses* and *requests* from end-systems, falsifying information or even copying data.
 ---
 # Level 5 → 6
-### Objective: Figuring the password for the next level but "Access dissalowed. You are not logged in."
+### Objective: Figuring the password for the next level but "Access disallowed. You are not logged in."
 ### What I thought and executed
-1. I tried `http://natas5.natas.labs.overthewire.org/robots.txt/` to check is the password was in there, but this page doesnt exist. (due to the `404 Error` which means 'not found').
-2. I right clicked and selected `inspect` and checked `Elements` along with `View page source`, but found nothing. I viewd the same again and again incase I overlooked something, but nothing.
-3. Then I thought, it says 'Access dissalowed' and 'not logged in', in websites requiring logins, `cookies` are responsible for knowing my identity as I scroll through the website. I googled how to look at 'active cookies' on a website using 'dev tools'.
-4. In `inspect`, I went to `Network` menu, refreshed the page and clicked on the first link that shared the name of the URL. I scrolled through it, and found two sections `Request Headers` and `Response Headers`, and under both of them was `cookies` section. 
-5. The `Request Header` has `loggedin=0` and `Response Header` had a `ga_` followed by a string, which I found out was **Google Analytics Tracking Cookies** of the website OverTheWire, which I figured was had nothing to do with this specific level.
->All client side data is not proof, and is just an **assertion**. So, this can be falsified.
-6. I searched how to change the value of a cookie on a website using dev tools in Natas. Then I went on `Application` and in *Cookies*, there was a cookie named `http://natas5.natas.labs.overthewire.org`, I clicked it, then on the 'value' section where it said `loggedin=0`.
-7. I first tried `natas5`, but it failed. Then I got to thinking, `natas5` didn't work, the password won't work either. After a few minutes, it hit that computer's response is either `0` or `1`. If it isn't `0`, it has got to be `1`. Then I refreshed the page, and the password was visible on the screen.
+1. I tried `http://natas5.natas.labs.overthewire.org/robots.txt/` to check if the password was in there, but this page doesn't exist. (due to the `404 Error`, which means 'not found').
+2. I right-clicked and selected `inspect` and checked `Elements` along with `View page source`, but found nothing. I viewed the same again and again in case I overlooked something, but nothing.
+3. Then I thought, it says 'Access disallowed' and 'not logged in', in websites requiring logins, `cookies` are responsible for knowing my identity as I scroll through the website. I googled how to look at 'active cookies' on a website using 'dev tools'.
+4. In `Inspect`, I went to the `Network` menu, refreshed the page and clicked on the first link that shared the name of the URL. I scrolled through it and found two sections, `Request Headers` and `Response Headers`, and under both of them was the `cookies` section. 
+5. The `Request Header` has `loggedin=0`, and the `Response Header` had a `ga_` followed by a string, which I found out was **Google Analytics Tracking Cookies** of the website OverTheWire, which I figured had nothing to do with this specific level.
+>All client-side data is not proof, and is just an **assertion**. So, this can be falsified.
+6. I searched how to change the value of a cookie on a website using dev tools in Natas. Then I went to `Application`, and in *Cookies*, there was a cookie named `http://natas5.natas.labs.overthewire.org`. I clicked it, then on the 'value' section where it said `loggedin=0`.
+7. I first tried `natas5`, but it failed. Then I got to thinking, `natas5` didn't work; the password won't work either. After a few minutes, it hit that the computer's response is either `0` or `1`. If it isn't `0`, it has got to be `1`. Then I refreshed the page, and the password was visible on the screen.
 ### What was required:
-1. To right click, `Network`, refresh the page, select the page sharing with the URL.
-2. Look throught the headers, and under headers, `Request Header`, it said `cookie  loggedin=0`.
-3. In `Application` and then `storage`, selecting the cookie under `cookie` that shares the URL, double clicking the value `0`, changing it to `1` and refreshing the page.
+1. Right-click `Network`, refresh the page, and select the page sharing with the URL.
+2. Look through the headers, and under headers, `Request Header`, it said `cookie  loggedin=0`.
+3. In `Application` and then `storage`, select the cookie under `cookie` that shares the URL, double-click the value `0`, change it to `1` and refresh the page.
 ### What I learnt:
 - Cookies are responsible for knowing our identity (IP address, username (if logged in)) while we look through the website. 
-- Slight *binary* changes in the code, can possibly lock people out of their accounts
-- Computer communicates in binary, and it's responses will be either `0` meaning *no*/*False* and `1` meaning *yes*/*True*.
-- Since client side information is just **assertion** and has no proof, it can be altered and not be questioned.
+- Slight *binary* changes in the code can possibly lock people out of their accounts
+- A computer communicates in binary, and its responses will be either `0` meaning *no*/*False* and `1` meaning *yes*/*True*.
+- Since client-side information is just **assertions** and has no proof, it can be altered and not be questioned.
 ---
 # Level 6 → 7
-### Objective: Figuring out the password for next level but `Input Secret: `
+### Objective: Figuring out the password for the next level but `Input Secret: `
 ### What I thought and executed: 
-1. I right clicked and selected `inspect`, viewd the html code, which had a new `<form></form>` tag, which labeled the input as *secret*.
-2. Then I went to `Network`, refreshed teh page and scrolled through the headers, it had `gzip` encoding and the accepted encoding was `gzip` in english.
-3. I also found in `authorisation` in network, a *string* but it wasen't the password.
-4. Then I clicked the `View Sourcecode` link given on the home page. This code had `<?></?>` tag, which included `include "includes/secret.inc"`.
-5. I went to `http://natas6.natas.labs.overthewire.org/includes/secret.inc` which opened another html page with the `secret`, which was a string.
+1. I right-clicked and selected `inspect`, viewed the HTML code, which had a new `<form></form>` tag, which labelled the input as *secret*.
+2. Then I went to `Network`, refreshed the page and scrolled through the headers; it had `gzip` encoding, and the accepted encoding was `gzip` in English.
+3. I also found in `authorisation` in Network a *string*, but it wasn't the password.
+4. Then I clicked the `View Sourcecode` link given on the home page. This code had a `<?></?>` tag, which included `include "includes/secret.inc"`.
+5. I went to `http://natas6.natas.labs.overthewire.org/includes/secret.inc`, which opened another HTML page with the `secret`, which was a string.
 6. I entered this `secret` string in the input box on the home page, and I got the password.
 ### What was required:
 1. Click the `View Sourcecode` link on the home page, look at the `include "includes/secret.inc"`.
 2. Go to `http://natas6.natas.labs.overthewire.org/includes/secret.inc`, copy the *secret* string, paste it in the input box on the home page, and get the password.
 ### What I learnt:
-1. To look at html code with attachements not as 'this is an attachement link', but as 'there are these folders on the server which may contain more than just the attachement (be it video, image or a file)'.
+1. To look at HTML code with attachments not as 'this is an attachment link', but as 'there are these folders on the server which may contain more than just the attachment (be it video, image or a file)'.
 ---
